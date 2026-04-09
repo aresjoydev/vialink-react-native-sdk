@@ -10,6 +10,10 @@ class ViaLinkModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext),
     ActivityEventListener {
 
+    companion object {
+        const val WRAPPER_VERSION = "2.0.5"
+    }
+
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var pendingDeepLink: WritableMap? = null
     private var pendingDeferred: WritableMap? = null
@@ -31,6 +35,7 @@ class ViaLinkModule(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun configure(apiKey: String, promise: Promise) {
         val context = reactApplicationContext
+        ViaLinkSDK.setWrapper("react-native/$WRAPPER_VERSION")
         ViaLinkSDK.init(context, apiKey)
 
         ViaLinkSDK.onDeepLink { data ->

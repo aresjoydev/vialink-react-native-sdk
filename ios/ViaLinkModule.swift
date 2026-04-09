@@ -5,6 +5,8 @@ import ViaLinkSDK  // xcframework
 @objc(ViaLinkSDK)
 class ViaLinkModule: RCTEventEmitter {
 
+    static let wrapperVersion = "2.0.5"
+
     private var pendingDeepLink: [String: Any?]?
     private var pendingDeferred: [String: Any?]?
     private var hasListeners = false
@@ -32,6 +34,7 @@ class ViaLinkModule: RCTEventEmitter {
 
     @objc func configure(_ apiKey: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
         DispatchQueue.main.async {
+            ViaLinkSDK.shared.setWrapper("react-native/\(Self.wrapperVersion)")
             ViaLinkSDK.shared.configure(apiKey: apiKey)
 
             ViaLinkSDK.shared.onDeepLink { [weak self] data in

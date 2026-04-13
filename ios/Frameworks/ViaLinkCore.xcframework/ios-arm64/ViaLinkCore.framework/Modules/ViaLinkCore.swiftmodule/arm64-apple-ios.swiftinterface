@@ -1,0 +1,47 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.3 effective-5.10 (swiftlang-6.3.0.123.5 clang-2100.0.123.102)
+// swift-module-flags: -target arm64-apple-ios15.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -O -enable-experimental-feature DebugDescriptionMacro -module-name ViaLinkCore -package-name vialink_ios_sdk
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.3
+import CoreTelephony
+import Foundation
+import Network
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public struct DeepLinkData : Swift.Sendable {
+  public let path: Swift.String
+  public let params: [Swift.String : Swift.String]
+  public let shortCode: Swift.String?
+  public init(path: Swift.String, params: [Swift.String : Swift.String] = [:], shortCode: Swift.String? = nil)
+}
+@_hasMissingDesignatedInitializers final public class ViaLinkSDK : @unchecked Swift.Sendable {
+  public static let sdkVersion: Swift.String
+  public static let shared: ViaLinkCore.ViaLinkSDK
+  final public func setWrapper(_ wrapper: Swift.String)
+  final public func configure(apiKey: Swift.String)
+  final public func onDeepLink(_ handler: @escaping (ViaLinkCore.DeepLinkData) -> Swift.Void)
+  final public func onDeferredDeepLink(_ handler: @escaping (ViaLinkCore.DeepLinkData) -> Swift.Void)
+  @discardableResult
+  final public func handleUniversalLink(_ userActivity: Foundation.NSUserActivity) -> Swift.Bool
+  @discardableResult
+  final public func handleURL(_ url: Foundation.URL) -> Swift.Bool
+  final public func track(_ eventName: Swift.String, data: [Swift.String : Swift.String]? = nil)
+  final public func createLink(path: Swift.String, data: [Swift.String : Swift.String]? = nil, campaign: Swift.String? = nil) async throws -> Swift.String
+  public enum CreateLinkError : Swift.Error, Foundation.LocalizedError {
+    case notConfigured
+    case invalidResponse
+    public var errorDescription: Swift.String? {
+      get
+    }
+    public static func == (a: ViaLinkCore.ViaLinkSDK.CreateLinkError, b: ViaLinkCore.ViaLinkSDK.CreateLinkError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  @objc deinit
+}
+extension ViaLinkCore.ViaLinkSDK.CreateLinkError : Swift.Equatable {}
+extension ViaLinkCore.ViaLinkSDK.CreateLinkError : Swift.Hashable {}

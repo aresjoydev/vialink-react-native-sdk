@@ -1,11 +1,11 @@
 import Foundation
 import React
-import ViaLinkSDK  // xcframework
+import ViaLinkCore  // xcframework module: ViaLinkCore (class: ViaLinkSDK)
 
 @objc(ViaLinkSDK)
 class ViaLinkModule: RCTEventEmitter {
 
-    static let wrapperVersion = "2.0.5"
+    static let wrapperVersion = "2.1.0"
 
     private var pendingDeepLink: [String: Any?]?
     private var pendingDeferred: [String: Any?]?
@@ -73,6 +73,55 @@ class ViaLinkModule: RCTEventEmitter {
                 DispatchQueue.main.async { resolve(url) }
             } catch {
                 DispatchQueue.main.async { reject("CREATE_LINK_ERROR", error.localizedDescription, error) }
+            }
+        }
+    }
+
+    /// 결제 시도 이벤트를 native iOS SDK(ViaLinkSDK.shared.payment.initiated)로 전달.
+    /// args: { orderId, amount, currency, linkId?, paymentMethod?, metadata? }
+    /// resolve: { success: Bool, paymentEventId: String }
+    @objc func paymentInitiated(_ args: NSDictionary,
+                                resolve: @escaping RCTPromiseResolveBlock,
+                                reject: @escaping RCTPromiseRejectBlock) {
+        guard let orderId = args["orderId"] as? String, !orderId.isEmpty else {
+            reject("E_INVALID_ARG", "orderId가 필요합니다.", nil)
+            return
+        }
+        guard let amountValue = args["amount"] as? NSNumber else {
+            reject("E_INVALID_ARG", "amount가 필요합니다.", nil)
+            return
+        }
+        guard let currency = args["currency"] as? String, !currency.isEmpty else {
+            reject("E_INVALID_ARG", "currency가 필요합니다.", nil)
+            return
+        }
+
+        let linkId = args["linkId"] as? Int
+        let paymentMethod = args["paymentMethod"] as? String
+        let metadata = args["metadata"] as? [String: String]
+
+        let payArgs = PaymentInitiatedArgs(
+            orderId: orderId,
+            amount: amountValue.doubleValue,
+            currency: currency,
+            linkId: linkId,
+            paymentMethod: paymentMethod,
+            metadata: metadata
+        )
+
+        Task {
+            do {
+                let result = try await ViaLinkSDK.shared.payment.initiated(payArgs)
+                DispatchQueue.main.async {
+                    resolve([
+                        "success": result.success,
+                        "paymentEventId": result.paymentEventId,
+                    ])
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    reject("E_PAYMENT_FAILED", error.localizedDescription, error)
+                }
             }
         }
     }

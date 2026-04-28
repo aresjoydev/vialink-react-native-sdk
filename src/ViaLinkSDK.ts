@@ -10,6 +10,39 @@ export interface DeepLinkData {
 }
 
 /**
+ * 결제 시도 이벤트 입력 인자.
+ *
+ * - orderId: 운영자가 발급하는 주문번호 (1~100자, 영문/숫자/하이픈/언더스코어)
+ * - amount: 결제 금액 (통화 단위 그대로, > 0)
+ * - currency: ISO 4217 통화 코드 (예: "KRW", "USD", "JPY")
+ * - linkId: (옵션) 사용자가 진입한 링크 id
+ * - paymentMethod: (옵션) 결제 수단 식별자 (예: "card", "kakao_pay")
+ * - metadata: (옵션) 운영자 자유 메타데이터 (iOS 호환을 위해 string-only)
+ */
+export interface PaymentInitiatedArgs {
+  orderId: string;
+  amount: number;
+  currency: string;
+  linkId?: number;
+  paymentMethod?: string;
+  metadata?: Record<string, string>;
+}
+
+/**
+ * 결제 시도 응답.
+ *
+ * - success: 서버에서 성공 처리되었는지 여부
+ * - paymentEventId: 서버에서 발급한 결제 이벤트 ID (문자열로 정규화)
+ */
+export interface PaymentInitiatedResult {
+  success: boolean;
+  paymentEventId: string;
+}
+
+/// orderId 형식 검증 (1~100자, 영문/숫자/하이픈/언더스코어)
+const ORDER_ID_REGEX = /^[A-Za-z0-9_-]{1,100}$/;
+
+/**
  * ViaLink React Native SDK
  *
  * 네이티브 브릿지 기반 딥링크 라우팅, 디퍼드 딥링킹, 이벤트 추적을 제공합니다.
@@ -89,6 +122,56 @@ export class ViaLinkSDK {
   ): Promise<string> {
     return NativeSDK.createLink(path, data ?? null, campaign ?? null);
   }
+
+  /**
+   * 결제 추적 namespace.
+   *
+   * `succeeded`/`failed`는 서버-투-서버(S2S) 엔드포인트라 클라이언트 SDK에서는 노출하지 않습니다.
+   *
+   * ```typescript
+   * const result = await ViaLinkSDK.shared.payment.initiated({
+   *   orderId: 'ORD-2026-0001',
+   *   amount: 19900,
+   *   currency: 'KRW',
+   *   paymentMethod: 'card',
+   * });
+   * // result.success === true, result.paymentEventId === '123'
+   * ```
+   */
+  readonly payment = {
+    /**
+     * 결제 시도 기록 (POST /v1/payments/initiated).
+     * 결제창을 띄우기 직전에 호출합니다. 즉시 전송 (배치 X).
+     */
+    initiated: async (args: PaymentInitiatedArgs): Promise<PaymentInitiatedResult> => {
+      // 입력 검증 (native에서도 검증하지만 빠른 실패를 위해 클라이언트에서도 1차 검증)
+      if (!args || typeof args !== 'object') {
+        throw new Error('args가 필요합니다.');
+      }
+      if (typeof args.orderId !== 'string' || !ORDER_ID_REGEX.test(args.orderId)) {
+        throw new Error('order_id 형식이 올바르지 않습니다 (1~100자, 영문/숫자/하이픈/언더스코어).');
+      }
+      if (typeof args.amount !== 'number' || !Number.isFinite(args.amount) || args.amount <= 0) {
+        throw new Error('amount는 0보다 큰 숫자여야 합니다.');
+      }
+      if (typeof args.currency !== 'string' || args.currency.trim().length === 0) {
+        throw new Error('currency가 필요합니다.');
+      }
+
+      const result = await NativeSDK.paymentInitiated({
+        orderId: args.orderId,
+        amount: args.amount,
+        currency: args.currency.trim().toUpperCase(),
+        linkId: args.linkId ?? null,
+        paymentMethod: args.paymentMethod ?? null,
+        metadata: args.metadata ?? null,
+      });
+      return {
+        success: !!result?.success,
+        paymentEventId: String(result?.paymentEventId ?? ''),
+      };
+    },
+  };
 
   /// SDK 정리 (앱 종료 또는 unmount 시 호출)
   destroy(): void {

@@ -4,6 +4,7 @@ import com.facebook.react.bridge.*
 import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.vialink.sdk.ViaLinkSDK
 import com.vialink.sdk.model.DeepLinkData
+import com.vialink.sdk.model.PaymentInitiatedArgs
 import kotlinx.coroutines.*
 
 class ViaLinkModule(reactContext: ReactApplicationContext) :
@@ -11,7 +12,7 @@ class ViaLinkModule(reactContext: ReactApplicationContext) :
     ActivityEventListener {
 
     companion object {
-        const val WRAPPER_VERSION = "2.0.5"
+        const val WRAPPER_VERSION = "2.1.0"
     }
 
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
@@ -65,6 +66,61 @@ class ViaLinkModule(reactContext: ReactApplicationContext) :
             val result = ViaLinkSDK.createLink(path, data?.toHashMap()?.mapValues { it.value as Any }, campaign)
             result.onSuccess { promise.resolve(it) }
             result.onFailure { promise.reject("CREATE_LINK_ERROR", it.message) }
+        }
+    }
+
+    /// 결제 시도 이벤트를 native SDK(payment.initiated)로 전달.
+    /// args: { orderId, amount, currency, linkId?, paymentMethod?, metadata? }
+    /// resolve: { success: Boolean, paymentEventId: String }
+    @ReactMethod
+    fun paymentInitiated(args: ReadableMap, promise: Promise) {
+        try {
+            val orderId = if (args.hasKey("orderId") && !args.isNull("orderId"))
+                args.getString("orderId") else null
+            if (orderId.isNullOrEmpty()) {
+                return promise.reject("E_INVALID_ARG", "orderId가 필요합니다.")
+            }
+
+            if (!args.hasKey("amount") || args.isNull("amount")) {
+                return promise.reject("E_INVALID_ARG", "amount가 필요합니다.")
+            }
+            val amount = args.getDouble("amount")
+
+            val currency = if (args.hasKey("currency") && !args.isNull("currency"))
+                args.getString("currency") else null
+            if (currency.isNullOrEmpty()) {
+                return promise.reject("E_INVALID_ARG", "currency가 필요합니다.")
+            }
+
+            val linkId = if (args.hasKey("linkId") && !args.isNull("linkId"))
+                args.getInt("linkId") else null
+            val paymentMethod = if (args.hasKey("paymentMethod") && !args.isNull("paymentMethod"))
+                args.getString("paymentMethod") else null
+            val metadata = if (args.hasKey("metadata") && !args.isNull("metadata"))
+                args.getMap("metadata")?.toHashMap()?.mapValues { it.value as Any? } else null
+
+            val payArgs = PaymentInitiatedArgs(
+                orderId = orderId,
+                amount = amount,
+                currency = currency,
+                linkId = linkId,
+                paymentMethod = paymentMethod,
+                metadata = metadata,
+            )
+
+            scope.launch {
+                try {
+                    val result = ViaLinkSDK.payment.initiated(payArgs)
+                    val map = Arguments.createMap()
+                    map.putBoolean("success", result.success)
+                    map.putString("paymentEventId", result.paymentEventId)
+                    promise.resolve(map)
+                } catch (e: Exception) {
+                    promise.reject("E_PAYMENT_FAILED", e.message ?: e.toString(), e)
+                }
+            }
+        } catch (e: Exception) {
+            promise.reject("E_PAYMENT_FAILED", e.message ?: e.toString(), e)
         }
     }
 

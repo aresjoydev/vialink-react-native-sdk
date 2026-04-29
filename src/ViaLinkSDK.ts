@@ -111,16 +111,24 @@ export class ViaLinkSDK {
   /**
    * 앱 내에서 딥링크 생성
    *
+   * - `dynamic` (기본값): 클릭할 때마다 통계·어트리뷰션이 집계되는 동적 링크
+   * - `static`: 고정된 목적지 URL만 제공하는 정적 링크 (통계 미집계)
+   *
    * ```typescript
+   * // 동적 링크 (기본값 — 생략 가능)
    * const url = await ViaLinkSDK.shared.createLink('/product/123', { promo: 'FRIEND' }, 'referral');
+   *
+   * // 정적 링크 (통계 미집계)
+   * const url = await ViaLinkSDK.shared.createLink('/product/123', { promo: 'FRIEND' }, 'referral', 'static');
    * ```
    */
   async createLink(
     path: string,
     data?: Record<string, unknown>,
     campaign?: string,
+    linkType: 'dynamic' | 'static' = 'dynamic',
   ): Promise<string> {
-    return NativeSDK.createLink(path, data ?? null, campaign ?? null);
+    return NativeSDK.createLink(path, data ?? null, campaign ?? null, linkType);
   }
 
   /**

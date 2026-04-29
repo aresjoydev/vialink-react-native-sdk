@@ -65,10 +65,13 @@ class ViaLinkModule: RCTEventEmitter {
     }
 
     @objc func createLink(_ path: String, data: NSDictionary?, campaign: String?,
+                          linkType: String,
                           resolve: @escaping RCTPromiseResolveBlock,
                           reject: @escaping RCTPromiseRejectBlock) {
         Task {
             do {
+                // TODO: ViaLinkCore가 linkType을 지원하면 아래 호출에 linkType 전달 필요.
+                //       현재 iOS core SDK는 다른 sub-agent가 linkType 인자를 추가 중.
                 let url = try await ViaLinkSDK.shared.createLink(path: path, data: data as? [String: Any], campaign: campaign)
                 DispatchQueue.main.async { resolve(url) }
             } catch {

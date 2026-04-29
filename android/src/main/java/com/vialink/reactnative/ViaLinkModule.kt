@@ -61,8 +61,10 @@ class ViaLinkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun createLink(path: String, data: ReadableMap?, campaign: String?, promise: Promise) {
+    fun createLink(path: String, data: ReadableMap?, campaign: String?, linkType: String, promise: Promise) {
         scope.launch {
+            // linkType("dynamic" | "static") 을 native SDK에 전달.
+            // Android core SDK가 linkType 인자를 지원하면 아래 호출에 linkType을 함께 넘긴다.
             val result = ViaLinkSDK.createLink(path, data?.toHashMap()?.mapValues { it.value as Any }, campaign)
             result.onSuccess { promise.resolve(it) }
             result.onFailure { promise.reject("CREATE_LINK_ERROR", it.message) }

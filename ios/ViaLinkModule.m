@@ -13,6 +13,7 @@ RCT_EXTERN_METHOD(track:(NSString *)eventName
 RCT_EXTERN_METHOD(createLink:(NSString *)path
                   data:(NSDictionary *)data
                   campaign:(NSString *)campaign
+                  linkType:(NSString *)linkType
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 

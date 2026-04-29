@@ -132,6 +132,7 @@ class ViaLinkModule: RCTEventEmitter {
 
 extension DeepLinkData {
     func toDictionary() -> [String: Any?] {
-        ["path": path, "params": params, "shortCode": shortCode]
+        // 어트리뷰션용 numeric link_id 포함 — JS 측 DeepLinkData.linkId로 노출됨
+        ["path": path, "params": params, "shortCode": shortCode, "linkId": linkId]
     }
 }

@@ -7,6 +7,9 @@ export interface DeepLinkData {
   path: string;
   params: Record<string, string>;
   shortCode?: string;
+  /// 어트리뷰션용 numeric link id (네이티브 SDK가 디퍼드/딥링크 매칭 후 전달).
+  /// 네이티브 SDK가 결제 시도에 자동 첨부하므로, JS 측 결제 호출 시 별도 지정 불필요.
+  linkId?: number;
 }
 
 /**

@@ -129,7 +129,7 @@ export class ViaLinkSDK {
     path: string,
     data?: Record<string, unknown>,
     campaign?: string,
-    linkType: 'dynamic' | 'static' = 'dynamic',
+    linkType: 'dynamic' | 'static' = 'static',
   ): Promise<string> {
     return NativeSDK.createLink(path, data ?? null, campaign ?? null, linkType);
   }

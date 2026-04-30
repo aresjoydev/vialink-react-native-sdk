@@ -37,6 +37,27 @@ export interface PaymentInitiatedArgs {
  * - success: 서버에서 성공 처리되었는지 여부
  * - paymentEventId: 서버에서 발급한 결제 이벤트 ID (문자열로 정규화)
  */
+/// `createLink()`의 5번째 인자 — 폴백 URL, OG 메타태그, 채널/태그 등 부가 옵션.
+/// 서버 `/api/links`가 받는 모든 옵션 필드를 그대로 노출한다. 모두 선택.
+export interface CreateLinkExtraOptions {
+  /// iOS App Store 폴백 URL
+  iosUrl?: string;
+  /// Android Play Store 폴백 URL
+  androidUrl?: string;
+  /// 웹 폴백 URL
+  webUrl?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImageUrl?: string;
+  /// 유입 채널 (`email`, `sms`, `social` 등)
+  channel?: string;
+  /// 기능 태그 (`product_share` 등)
+  feature?: string;
+  tags?: string[];
+  /// 만료일 (ISO 8601, 예: `'2026-12-31T23:59:59Z'`)
+  expiresAt?: string;
+}
+
 export interface PaymentInitiatedResult {
   success: boolean;
   paymentEventId: string;
@@ -130,8 +151,15 @@ export class ViaLinkSDK {
     data?: Record<string, unknown>,
     campaign?: string,
     linkType: 'dynamic' | 'static' = 'static',
+    options?: CreateLinkExtraOptions,
   ): Promise<string> {
-    return NativeSDK.createLink(path, data ?? null, campaign ?? null, linkType);
+    return NativeSDK.createLink(
+      path,
+      data ?? null,
+      campaign ?? null,
+      linkType,
+      options ?? null,
+    );
   }
 
   /**

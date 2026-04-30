@@ -14,6 +14,7 @@ RCT_EXTERN_METHOD(createLink:(NSString *)path
                   data:(NSDictionary *)data
                   campaign:(NSString *)campaign
                   linkType:(NSString *)linkType
+                  options:(NSDictionary *)options
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 

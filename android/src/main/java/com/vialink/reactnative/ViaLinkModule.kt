@@ -61,14 +61,46 @@ class ViaLinkModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun createLink(path: String, data: ReadableMap?, campaign: String?, linkType: String, promise: Promise) {
+    fun createLink(
+        path: String,
+        data: ReadableMap?,
+        campaign: String?,
+        linkType: String,
+        options: ReadableMap?,
+        promise: Promise
+    ) {
         scope.launch {
-            // linkType("dynamic" | "static") 을 native SDK에 전달.
-            // Android core SDK가 linkType 인자를 지원하면 아래 호출에 linkType을 함께 넘긴다.
-            val result = ViaLinkSDK.createLink(path, data?.toHashMap()?.mapValues { it.value as Any }, campaign)
+            val dataMap = data?.toHashMap()?.mapValues { it.value as Any }
+            // 5번째 인자는 폴백 URL/OG/채널/태그 등 부가 옵션 (선택).
+            val tagsList = options?.takeIf { it.hasKey("tags") && !it.isNull("tags") }
+                ?.getArray("tags")
+                ?.toArrayList()
+                ?.mapNotNull { it as? String }
+            val result = ViaLinkSDK.createLink(
+                path = path,
+                data = dataMap,
+                campaign = campaign,
+                linkType = linkType,
+                iosUrl = options?.optString("iosUrl"),
+                androidUrl = options?.optString("androidUrl"),
+                webUrl = options?.optString("webUrl"),
+                ogTitle = options?.optString("ogTitle"),
+                ogDescription = options?.optString("ogDescription"),
+                ogImageUrl = options?.optString("ogImageUrl"),
+                channel = options?.optString("channel"),
+                feature = options?.optString("feature"),
+                tags = tagsList,
+                expiresAt = options?.optString("expiresAt"),
+            )
             result.onSuccess { promise.resolve(it) }
             result.onFailure { promise.reject("CREATE_LINK_ERROR", it.message) }
         }
+    }
+
+    /// ReadableMap에서 String을 안전하게 꺼냄 (없거나 null이면 null 반환).
+    private fun ReadableMap.optString(key: String): String? {
+        if (!hasKey(key) || isNull(key)) return null
+        return getString(key)
     }
 
     /// 결제 시도 이벤트를 native SDK(payment.initiated)로 전달.

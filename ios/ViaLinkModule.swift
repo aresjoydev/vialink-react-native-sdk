@@ -46,12 +46,16 @@ class ViaLinkModule: RCTEventEmitter {
                 }
             }
 
-            ViaLinkSDK.shared.onDeferredDeepLink { [weak self] data in
-                let map = data.toDictionary()
+            // 디퍼드 콜백: SDK 3.0+ 시그니처 (data, error) — 항상 1회 호출
+            // JS 측 emit 페이로드는 `{data, error}` 객체로 전달한다.
+            ViaLinkSDK.shared.onDeferredDeepLink { [weak self] data, error in
+                var payload: [String: Any?] = [:]
+                if let data = data { payload["data"] = data.toDictionary() }
+                if let error = error { payload["error"] = error.toDictionary() }
                 if self?.hasListeners == true {
-                    self?.sendEvent(withName: "onDeferredDeepLink", body: map)
+                    self?.sendEvent(withName: "onDeferredDeepLink", body: payload)
                 } else {
-                    self?.pendingDeferred = map
+                    self?.pendingDeferred = payload
                 }
             }
 
@@ -149,5 +153,17 @@ extension DeepLinkData {
     func toDictionary() -> [String: Any?] {
         // 어트리뷰션용 numeric link_id 포함 — JS 측 DeepLinkData.linkId로 노출됨
         ["path": path, "params": params, "shortCode": shortCode, "linkId": linkId]
+    }
+}
+
+extension DeferredError {
+    /// JS DeferredError 인터페이스와 키가 일치해야 함
+    func toDictionary() -> [String: Any?] {
+        [
+            "code": code.rawValue,
+            "message": message,
+            "httpStatus": httpStatus,
+            "retryable": retryable,
+        ]
     }
 }

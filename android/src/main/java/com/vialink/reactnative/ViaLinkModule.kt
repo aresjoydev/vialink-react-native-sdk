@@ -4,6 +4,7 @@ import com.facebook.react.bridge.*
 import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.vialink.sdk.ViaLinkSDK
 import com.vialink.sdk.model.DeepLinkData
+import com.vialink.sdk.model.DeferredError
 import com.vialink.sdk.model.PaymentInitiatedArgs
 import kotlinx.coroutines.*
 
@@ -44,10 +45,14 @@ class ViaLinkModule(reactContext: ReactApplicationContext) :
             if (listenerCount > 0) sendEvent("onDeepLink", map)
             else pendingDeepLink = map
         }
-        ViaLinkSDK.onDeferredDeepLink { data ->
-            val map = data.toWritableMap()
-            if (listenerCount > 0) sendEvent("onDeferredDeepLink", map)
-            else pendingDeferred = map
+        // 디퍼드 콜백: SDK 3.0+ 시그니처 (data, error) — 항상 1회 호출
+        // JS 측 emit 페이로드는 `{data, error}` 객체로 전달한다.
+        ViaLinkSDK.onDeferredDeepLink { data, error ->
+            val payload = Arguments.createMap()
+            data?.let { payload.putMap("data", it.toWritableMap()) }
+            error?.let { payload.putMap("error", it.toWritableMap()) }
+            if (listenerCount > 0) sendEvent("onDeferredDeepLink", payload)
+            else pendingDeferred = payload
         }
 
         currentActivity?.intent?.let { ViaLinkSDK.handleIntent(it) }
@@ -199,5 +204,15 @@ private fun DeepLinkData.toWritableMap(): WritableMap {
     shortCode?.let { map.putString("shortCode", it) }
     // 어트리뷰션용 numeric link_id (없으면 키 자체를 누락)
     linkId?.let { map.putInt("linkId", it) }
+    return map
+}
+
+// DeferredError → WritableMap (JS DeferredError 인터페이스와 키가 일치해야 함)
+private fun DeferredError.toWritableMap(): WritableMap {
+    val map = Arguments.createMap()
+    map.putString("code", code)
+    map.putString("message", message)
+    httpStatus?.let { map.putInt("httpStatus", it) }
+    map.putBoolean("retryable", retryable)
     return map
 }

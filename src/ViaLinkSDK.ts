@@ -13,6 +13,33 @@ export interface DeepLinkData {
 }
 
 /**
+ * 디퍼드 매칭 실패 정보
+ *
+ * `onDeferredDeepLink((data, error) => ...)` 콜백의 두 번째 인자로 전달된다.
+ * `data == null && error == null`이면 매칭 결과가 "없음"(organic install)이다.
+ *
+ * - `code`:
+ *   - `'timeout'`: 5초 데드라인 만료
+ *   - `'network'`: DNS 실패, 연결 거부 등 (3회 재시도 모두 실패)
+ *   - `'server_error'`: HTTP 5xx (3회 재시도 모두 실패)
+ *   - `'invalid_response'`: 응답 JSON 파싱 실패
+ *   - `'unknown'`: 그 외 모든 예외
+ * - `retryable`이 true면 SDK가 다음 앱 실행에서 자동으로 다시 시도한다.
+ */
+export interface DeferredError {
+  code: 'timeout' | 'network' | 'server_error' | 'invalid_response' | 'unknown';
+  message: string;
+  httpStatus?: number;
+  retryable: boolean;
+}
+
+/// native event payload — `onDeferredDeepLink` emit 시 native가 전달하는 raw 객체
+interface DeferredEventPayload {
+  data?: DeepLinkData | null;
+  error?: DeferredError | null;
+}
+
+/**
  * 결제 시도 이벤트 입력 인자.
  *
  * - orderId: 운영자가 발급하는 주문번호 (1~100자, 영문/숫자/하이픈/언더스코어)
@@ -114,11 +141,37 @@ export class ViaLinkSDK {
 
   /**
    * 디퍼드 딥링크 콜백 등록
-   * 앱 첫 설치 후 실행 시 fingerprint 매칭으로 딥링크 데이터를 전달합니다.
+   *
+   * 앱 첫 실행 시 매칭 결과가 결정되는 즉시 항상 1회 호출됩니다.
+   * 5초 안에 결과가 결정되지 않으면 `error.code === 'timeout'`으로 호출됩니다.
+   *
+   * ```typescript
+   * ViaLinkSDK.shared.onDeferredDeepLink((data, error) => {
+   *   if (error) {
+   *     // 매칭 실패 (timeout/network/server_error 등) — 일반 진입
+   *     return;
+   *   }
+   *   if (!data) {
+   *     // organic install — 일반 진입
+   *     return;
+   *   }
+   *   navigation.navigate(data.path, data.params);
+   * });
+   * ```
+   *
+   * 콜백은 멱등성을 보장합니다 (총 1회 호출).
+   * `error.retryable`이 true면 다음 앱 실행에서 자동 재시도되며, 그 경우 사용자가 앱을 사용 중일 때 콜백이 도착할 수 있습니다.
    */
-  onDeferredDeepLink(callback: (data: DeepLinkData) => void): void {
+  onDeferredDeepLink(
+    callback: (data: DeepLinkData | null, error: DeferredError | null) => void,
+  ): void {
     this.deferredSub?.remove();
-    this.deferredSub = emitter.addListener('onDeferredDeepLink', callback);
+    this.deferredSub = emitter.addListener(
+      'onDeferredDeepLink',
+      (event: DeferredEventPayload) => {
+        callback(event?.data ?? null, event?.error ?? null);
+      },
+    );
   }
 
   /**

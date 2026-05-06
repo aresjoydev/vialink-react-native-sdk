@@ -131,12 +131,28 @@ export class ViaLinkSDK {
   }
 
   /**
-   * 딥링크 수신 콜백 등록
-   * App Links / Universal Links로 앱이 열렸을 때 호출됩니다.
+   * 딥링크 수신 콜백 등록 (3.1.0+).
+   *
+   * 네이티브 SDK가 진입 알림(`handleIntent`/`handleUniversalLink`/`notifyAppLaunch`)을 처리할 때 항상 1회 호출됩니다.
+   * - App Links / Universal Links 진입이면 매칭된 [DeepLinkData]가 전달됩니다.
+   * - 일반 진입(아이콘 탭 등)이면 `null`이 전달됩니다.
+   *
+   * ```typescript
+   * ViaLinkSDK.shared.onDeepLink((data) => {
+   *   if (!data) {
+   *     // 일반 진입 — 기본 라우트 유지
+   *     return;
+   *   }
+   *   navigation.navigate(data.path, data.params);
+   * });
+   * ```
    */
-  onDeepLink(callback: (data: DeepLinkData) => void): void {
+  onDeepLink(callback: (data: DeepLinkData | null) => void): void {
     this.deepLinkSub?.remove();
-    this.deepLinkSub = emitter.addListener('onDeepLink', callback);
+    this.deepLinkSub = emitter.addListener('onDeepLink', (event: DeepLinkData | null | undefined) => {
+      // 네이티브 모듈은 일반 진입 시 null payload, link 진입 시 DeepLinkData를 전달한다.
+      callback(event ?? null);
+    });
   }
 
   /**

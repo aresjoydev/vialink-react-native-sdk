@@ -13,11 +13,15 @@ class ViaLinkModule(reactContext: ReactApplicationContext) :
     ActivityEventListener {
 
     companion object {
-        const val WRAPPER_VERSION = "2.1.0"
+        const val WRAPPER_VERSION = "3.1.0"
     }
 
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    /// onDeepLink가 listenerCount==0 시점에 호출된 경우의 캐시.
+    /// 3.1.0부터 일반 진입에서도 콜백이 호출되므로, link 진입(map != null) / 일반 진입(map == null)을
+    /// 구분하기 위해 별도 플래그(`hasPendingDeepLink`)를 둔다.
     private var pendingDeepLink: WritableMap? = null
+    private var hasPendingDeepLink: Boolean = false
     private var pendingDeferred: WritableMap? = null
     private var listenerCount = 0
 
@@ -40,10 +44,15 @@ class ViaLinkModule(reactContext: ReactApplicationContext) :
         ViaLinkSDK.setWrapper("react-native/$WRAPPER_VERSION")
         ViaLinkSDK.init(context, apiKey)
 
+        // 딥링크 콜백 — SDK 3.1.0+: data == null이면 일반 진입을 의미한다.
+        // JS 측 emitter는 null payload를 그대로 전달받아 `data: null`로 콜백을 호출한다.
         ViaLinkSDK.onDeepLink { data ->
-            val map = data.toWritableMap()
+            val map: WritableMap? = data?.toWritableMap()
             if (listenerCount > 0) sendEvent("onDeepLink", map)
-            else pendingDeepLink = map
+            else {
+                pendingDeepLink = map
+                hasPendingDeepLink = true
+            }
         }
         // 디퍼드 콜백: SDK 3.0+ 시그니처 (data, error) — 항상 1회 호출
         // JS 측 emit 페이로드는 `{data, error}` 객체로 전달한다.
@@ -166,10 +175,11 @@ class ViaLinkModule(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun addListener(eventName: String) {
         listenerCount++
-        // pending 이벤트 flush
-        if (eventName == "onDeepLink") {
-            pendingDeepLink?.let { sendEvent("onDeepLink", it) }
+        // pending 이벤트 flush — 3.1.0부터 일반 진입(null payload)도 flush해야 한다.
+        if (eventName == "onDeepLink" && hasPendingDeepLink) {
+            sendEvent("onDeepLink", pendingDeepLink)   // null payload도 그대로 전달
             pendingDeepLink = null
+            hasPendingDeepLink = false
         }
         if (eventName == "onDeferredDeepLink") {
             pendingDeferred?.let { sendEvent("onDeferredDeepLink", it) }

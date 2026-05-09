@@ -208,7 +208,4 @@ private fun DeepLinkData.toWritableMap(): WritableMap {
     shortCode?.let { map.putString("shortCode", it) }
     // 어트리뷰션용 numeric link_id (없으면 키 자체를 누락)
     linkId?.let { map.putInt("linkId", it) }
-    return map
-}
-
 }

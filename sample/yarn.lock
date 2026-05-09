@@ -6264,9 +6264,9 @@ vary@~1.1.2:
   resolved "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
-"vialink-react-native-sdk@git+ssh://git@github.com/aresjoydev/vialink-react-native-sdk.git#v3.0.2":
-  version "3.0.2"
-  resolved "git+ssh://git@github.com/aresjoydev/vialink-react-native-sdk.git#35ee82e13b095ebab96184eabba65a897edcdf49"
+"vialink-react-native-sdk@git+ssh://git@github.com/aresjoydev/vialink-react-native-sdk.git#v3.0.3":
+  version "3.0.3"
+  resolved "git+ssh://git@github.com/aresjoydev/vialink-react-native-sdk.git#2276ade0fa0a1931c1d551d345b80e5ef1aa2bf4"
 
 vlq@^1.0.0:
   version "1.0.1"

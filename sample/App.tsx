@@ -12,7 +12,7 @@ import {
   Platform,
   Clipboard,
 } from 'react-native';
-// import { ViaLinkSDK } from 'vialink-react-native-sdk'; // 향후 실제 SDK 연동 시 주석 해제
+import { ViaLinkSDK } from 'vialink-react-native-sdk';
 
 const showToast = (msg: string) => {
   if (Platform.OS === 'android') {
@@ -39,10 +39,9 @@ const showResultDialog = (title: string, message: string, copyableText?: string)
 function App(): React.JSX.Element {
   useEffect(() => {
     // SDK 초기화
-    // ViaLinkSDK.init('API_KEY_HERE');
+    ViaLinkSDK.init('a47b2617f7b650ca44c2e0665264e9408b309eb03cd9220d3c8644b839482eeb');
     showToast('SDK 초기화 완료');
 
-    /*
     // 딥링크 콜백
     ViaLinkSDK.onDeepLink((data) => {
       if (data) {
@@ -62,7 +61,6 @@ function App(): React.JSX.Element {
         showResultDialog('디퍼드 딥링크', `경로: ${data.path}`, data.linkId);
       }
     });
-    */
   }, []);
 
   const SectionTitle = ({ title }: { title: string }) => (

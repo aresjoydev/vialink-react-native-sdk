@@ -1,6 +1,6 @@
 {
   "name": "vialink-react-native-sdk",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "description": "ViaLink 딥링크 SDK for React Native (네이티브 브릿지)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,7 +8,8 @@
     "build": "tsup && tsc -p tsconfig.build.json",
     "build:types": "tsc -p tsconfig.build.json",
     "build:bundle": "tsup",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "prepare": "npm run build"
   },
   "peerDependencies": {
     "react-native": ">=0.73.0"

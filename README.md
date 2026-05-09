@@ -73,12 +73,8 @@ ViaLinkSDK.shared.onDeepLink((data) => {
   console.log('딥링크:', data.path, data.params);
   navigation.navigate(data.path, data.params);
 });
-```
 
-### 3. 디퍼드 딥링크
-
-```typescript
-// 앱 첫 실행 시 매칭 (5초 데드라인)
+// 디퍼드 딥링크 (앱 첫 실행 시 매칭, 5초 데드라인)
 ViaLinkSDK.shared.onDeferredDeepLink((data, error) => {
   if (error) {
     // 매칭 실패 (timeout/network/server_error 등) — 일반 진입
@@ -92,6 +88,18 @@ ViaLinkSDK.shared.onDeferredDeepLink((data, error) => {
   // 매칭 성공 — 딥링크 경로로 이동
   navigation.navigate(data.path, data.params);
 });
+```
+
+### 3. Pull API
+
+```typescript
+// 동기 (캐시된 값 즉시 반환)
+const deepLink = await ViaLinkSDK.shared.getDeepLinkData();
+const deferred = await ViaLinkSDK.shared.getDeferredLinkData();
+
+// 비동기 (결과 도착까지 대기)
+const deepLinkAsync = await ViaLinkSDK.shared.awaitDeepLinkData();    // 3초 타임아웃
+const deferredAsync = await ViaLinkSDK.shared.awaitDeferredLinkData(); // 결과까지 대기
 ```
 
 ### 4. 이벤트 추적

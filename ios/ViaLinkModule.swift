@@ -5,13 +5,9 @@ import ViaLinkCore  // xcframework module: ViaLinkCore (class: ViaLinkSDK)
 @objc(ViaLinkSDK)
 class ViaLinkModule: RCTEventEmitter {
 
-    static let wrapperVersion = "3.1.0"
+    static let wrapperVersion = "2.1.0"
 
-    /// onDeepLink가 hasListeners == false 시점에 호출된 경우의 캐시.
-    /// 3.1.0부터 일반 진입(nil payload)도 콜백이 호출되므로, link 진입(map != nil) /
-    /// 일반 진입(map == nil)을 구분하기 위해 별도 플래그(`hasPendingDeepLink`)를 둔다.
     private var pendingDeepLink: [String: Any?]?
-    private var hasPendingDeepLink: Bool = false
     private var pendingDeferred: [String: Any?]?
     private var hasListeners = false
 
@@ -24,11 +20,9 @@ class ViaLinkModule: RCTEventEmitter {
 
     override func startObserving() {
         hasListeners = true
-        // 3.1.0+: pendingDeepLink가 nil이어도 hasPendingDeepLink가 true면 일반 진입 콜백을 flush한다.
-        if hasPendingDeepLink {
-            sendEvent(withName: "onDeepLink", body: pendingDeepLink as Any)
+        if let pending = pendingDeepLink {
+            sendEvent(withName: "onDeepLink", body: pending)
             pendingDeepLink = nil
-            hasPendingDeepLink = false
         }
         if let pending = pendingDeferred {
             sendEvent(withName: "onDeferredDeepLink", body: pending)
@@ -43,15 +37,12 @@ class ViaLinkModule: RCTEventEmitter {
             ViaLinkSDK.shared.setWrapper("react-native/\(Self.wrapperVersion)")
             ViaLinkSDK.shared.configure(apiKey: apiKey)
 
-            // 딥링크 콜백 — SDK 3.1.0+: data == nil이면 일반 진입을 의미한다.
-            // JS 측 emitter는 null payload를 그대로 전달받아 `data: null`로 콜백을 호출한다.
             ViaLinkSDK.shared.onDeepLink { [weak self] data in
-                let map: [String: Any?]? = data?.toDictionary()
+                let map = data.toDictionary()
                 if self?.hasListeners == true {
-                    self?.sendEvent(withName: "onDeepLink", body: map as Any)
+                    self?.sendEvent(withName: "onDeepLink", body: map)
                 } else {
                     self?.pendingDeepLink = map
-                    self?.hasPendingDeepLink = true
                 }
             }
 

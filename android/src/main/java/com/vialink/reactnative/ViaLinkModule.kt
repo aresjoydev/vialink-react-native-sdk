@@ -167,6 +167,51 @@ class ViaLinkModule(reactContext: ReactApplicationContext) :
         }
     }
 
+    // Pull APIs
+    @ReactMethod
+    fun getDeferredLinkData(promise: Promise) {
+        try {
+            val data = ViaLinkSDK.getDeferredLinkData()
+            promise.resolve(data?.toWritableMap())
+        } catch (e: Exception) {
+            promise.reject("E_GET_DEFERRED_FAILED", e.message ?: e.toString(), e)
+        }
+    }
+
+    @ReactMethod
+    fun awaitDeferredLinkData(promise: Promise) {
+        scope.launch {
+            try {
+                val data = ViaLinkSDK.awaitDeferredLinkData()
+                promise.resolve(data?.toWritableMap())
+            } catch (e: Exception) {
+                promise.reject("E_AWAIT_DEFERRED_FAILED", e.message ?: e.toString(), e)
+            }
+        }
+    }
+
+    @ReactMethod
+    fun getDeepLinkData(promise: Promise) {
+        try {
+            val data = ViaLinkSDK.getDeepLinkData()
+            promise.resolve(data?.toWritableMap())
+        } catch (e: Exception) {
+            promise.reject("E_GET_DEEPLINK_FAILED", e.message ?: e.toString(), e)
+        }
+    }
+
+    @ReactMethod
+    fun awaitDeepLinkData(promise: Promise) {
+        scope.launch {
+            try {
+                val data = ViaLinkSDK.awaitDeepLinkData()
+                promise.resolve(data?.toWritableMap())
+            } catch (e: Exception) {
+                promise.reject("E_AWAIT_DEEPLINK_FAILED", e.message ?: e.toString(), e)
+            }
+        }
+    }
+
     @ReactMethod
     fun addListener(eventName: String) {
         listenerCount++

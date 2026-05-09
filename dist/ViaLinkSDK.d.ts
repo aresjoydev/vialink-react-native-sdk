@@ -129,6 +129,26 @@ export declare class ViaLinkSDK {
      */
     track(eventName: string, data?: Record<string, unknown>): void;
     /**
+     * 디퍼드 딥링크 데이터 즉시 조회 (Sync)
+     * 캐시된 데이터가 없으면 null 반환
+     */
+    getDeferredLinkData(): Promise<DeepLinkData | null>;
+    /**
+     * 디퍼드 딥링크 데이터 대기 (Await)
+     * 아직 매칭 결과가 없으면 결과가 나올 때까지 대기
+     */
+    awaitDeferredLinkData(): Promise<DeepLinkData | null>;
+    /**
+     * 딥링크 데이터 즉시 조회 (Sync)
+     * 최근 수신된 딥링크 데이터가 없으면 null 반환
+     */
+    getDeepLinkData(): Promise<DeepLinkData | null>;
+    /**
+     * 딥링크 데이터 대기 (Await)
+     * 딥링크 처리가 완료될 때까지 대기 (timeout 3초)
+     */
+    awaitDeepLinkData(): Promise<DeepLinkData | null>;
+    /**
      * 앱 내에서 딥링크 생성
      *
      * - `dynamic` (기본값): 클릭할 때마다 통계·어트리뷰션이 집계되는 동적 링크

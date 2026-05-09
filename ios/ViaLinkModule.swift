@@ -147,6 +147,51 @@ class ViaLinkModule: RCTEventEmitter {
             }
         }
     }
+
+    // Pull APIs
+    @objc func getDeferredLinkData(_ resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        if let data = ViaLinkSDK.shared.getDeferredLinkData() {
+            resolve(data.toDictionary())
+        } else {
+            resolve(nil)
+        }
+    }
+
+    @objc func awaitDeferredLinkData(_ resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        Task {
+            do {
+                if let data = try await ViaLinkSDK.shared.awaitDeferredLinkData() {
+                    DispatchQueue.main.async { resolve(data.toDictionary()) }
+                } else {
+                    DispatchQueue.main.async { resolve(nil) }
+                }
+            } catch {
+                DispatchQueue.main.async { reject("E_AWAIT_DEFERRED_FAILED", error.localizedDescription, error) }
+            }
+        }
+    }
+
+    @objc func getDeepLinkData(_ resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        if let data = ViaLinkSDK.shared.getDeepLinkData() {
+            resolve(data.toDictionary())
+        } else {
+            resolve(nil)
+        }
+    }
+
+    @objc func awaitDeepLinkData(_ resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        Task {
+            do {
+                if let data = try await ViaLinkSDK.shared.awaitDeepLinkData() {
+                    DispatchQueue.main.async { resolve(data.toDictionary()) }
+                } else {
+                    DispatchQueue.main.async { resolve(nil) }
+                }
+            } catch {
+                DispatchQueue.main.async { reject("E_AWAIT_DEEPLINK_FAILED", error.localizedDescription, error) }
+            }
+        }
+    }
 }
 
 extension DeepLinkData {

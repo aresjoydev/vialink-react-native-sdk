@@ -1,0 +1,4 @@
+framework module ViaLinkCore {
+  header "ViaLinkCore-Swift.h"
+  requires objc
+}

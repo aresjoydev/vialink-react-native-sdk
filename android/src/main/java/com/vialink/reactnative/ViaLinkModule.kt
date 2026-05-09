@@ -37,7 +37,7 @@ class ViaLinkModule(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun configure(apiKey: String, promise: Promise) {
         val context = reactApplicationContext
-        ViaLinkSDK.setWrapper("react-native/$WRAPPER_VERSION")
+        ViaLinkSDK.setWrapperInternal("react-native/$WRAPPER_VERSION")
         ViaLinkSDK.init(context, apiKey)
 
         ViaLinkSDK.onDeepLink { data ->
@@ -50,12 +50,16 @@ class ViaLinkModule(reactContext: ReactApplicationContext) :
         ViaLinkSDK.onDeferredDeepLink { data, error ->
             val payload = Arguments.createMap()
             data?.let { payload.putMap("data", it.toWritableMap()) }
-            error?.let { payload.putMap("error", it.toWritableMap()) }
+            error?.let { 
+                val errMap = Arguments.createMap()
+                errMap.putString("message", it.message)
+                payload.putMap("error", errMap)
+            }
             if (listenerCount > 0) sendEvent("onDeferredDeepLink", payload)
             else pendingDeferred = payload
         }
 
-        currentActivity?.intent?.let { ViaLinkSDK.handleIntent(it) }
+        getCurrentActivity()?.intent?.let { ViaLinkSDK.handleIntent(it) }
         promise.resolve(null)
     }
 
@@ -149,7 +153,7 @@ class ViaLinkModule(reactContext: ReactApplicationContext) :
 
             scope.launch {
                 try {
-                    val result = ViaLinkSDK.payment.initiated(payArgs)
+                    val result = ViaLinkSDK.trackPayment(payArgs)
                     val map = Arguments.createMap()
                     map.putBoolean("success", result.success)
                     map.putString("paymentEventId", result.paymentEventId)
@@ -184,10 +188,10 @@ class ViaLinkModule(reactContext: ReactApplicationContext) :
     }
 
     // ActivityEventListener -- 새 Intent 처리 (Warm Start)
-    override fun onNewIntent(intent: android.content.Intent?) {
-        intent?.let { ViaLinkSDK.handleIntent(it) }
+    override fun onNewIntent(intent: android.content.Intent) {
+        ViaLinkSDK.handleIntent(intent)
     }
-    override fun onActivityResult(activity: android.app.Activity?, requestCode: Int, resultCode: Int, data: android.content.Intent?) {}
+    override fun onActivityResult(activity: android.app.Activity, requestCode: Int, resultCode: Int, data: android.content.Intent?) {}
 
     override fun onCatalystInstanceDestroy() {
         scope.cancel()
@@ -207,12 +211,4 @@ private fun DeepLinkData.toWritableMap(): WritableMap {
     return map
 }
 
-// DeferredError → WritableMap (JS DeferredError 인터페이스와 키가 일치해야 함)
-private fun DeferredError.toWritableMap(): WritableMap {
-    val map = Arguments.createMap()
-    map.putString("code", code)
-    map.putString("message", message)
-    httpStatus?.let { map.putInt("httpStatus", it) }
-    map.putBoolean("retryable", retryable)
-    return map
 }

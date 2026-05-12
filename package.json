@@ -1,6 +1,6 @@
 {
   "name": "vialink-react-native-sdk",
-  "version": "3.3.1",
+  "version": "3.3.3",
   "description": "ViaLink 딥링크 SDK for React Native (네이티브 브릿지)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "vialink-react-native-sdk"
-  s.version      = "3.3.1"
+  s.version      = "3.3.3"
   s.summary      = "ViaLink Deep Link SDK for React Native"
   s.homepage     = "https://vialink.app"
   s.license      = "MIT"

@@ -1,0 +1,16 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/hong/sources/vialink_claude/vialink-p-manager/sdk/react-sdk/sample/node_modules/vialink-react-native-sdk/android/src/main/AndroidManifest.xml:1:1-2:12
+INJECTED from /Users/hong/sources/vialink_claude/vialink-p-manager/sdk/react-sdk/sample/node_modules/vialink-react-native-sdk/android/src/main/AndroidManifest.xml:1:1-2:12
+	package
+		INJECTED from /Users/hong/sources/vialink_claude/vialink-p-manager/sdk/react-sdk/sample/node_modules/vialink-react-native-sdk/android/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/hong/sources/vialink_claude/vialink-p-manager/sdk/react-sdk/sample/node_modules/vialink-react-native-sdk/android/src/main/AndroidManifest.xml:1:11-69
+uses-sdk
+INJECTED from /Users/hong/sources/vialink_claude/vialink-p-manager/sdk/react-sdk/sample/node_modules/vialink-react-native-sdk/android/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/hong/sources/vialink_claude/vialink-p-manager/sdk/react-sdk/sample/node_modules/vialink-react-native-sdk/android/src/main/AndroidManifest.xml
+INJECTED from /Users/hong/sources/vialink_claude/vialink-p-manager/sdk/react-sdk/sample/node_modules/vialink-react-native-sdk/android/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/hong/sources/vialink_claude/vialink-p-manager/sdk/react-sdk/sample/node_modules/vialink-react-native-sdk/android/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/hong/sources/vialink_claude/vialink-p-manager/sdk/react-sdk/sample/node_modules/vialink-react-native-sdk/android/src/main/AndroidManifest.xml

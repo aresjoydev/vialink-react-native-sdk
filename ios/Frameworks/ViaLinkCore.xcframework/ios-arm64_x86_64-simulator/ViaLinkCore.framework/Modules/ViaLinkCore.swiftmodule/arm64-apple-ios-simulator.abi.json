@@ -5807,7 +5807,7 @@
       "kind": "StringLiteral",
       "offset": 999,
       "length": 8,
-      "value": "\"3.0.14\""
+      "value": "\"3.0.15\""
     },
     {
       "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
@@ -5875,14 +5875,14 @@
     {
       "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "StringLiteral",
-      "offset": 26257,
+      "offset": 26227,
       "length": 8,
       "value": "\"static\""
     },
     {
       "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "StringLiteral",
-      "offset": 29705,
+      "offset": 29675,
       "length": 26,
       "value": "\"^[A-Za-z0-9_\\-]{1,100}$\""
     }

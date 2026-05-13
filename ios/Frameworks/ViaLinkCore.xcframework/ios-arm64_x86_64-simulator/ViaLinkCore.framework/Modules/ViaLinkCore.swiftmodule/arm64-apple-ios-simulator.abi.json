@@ -5784,7 +5784,7 @@
     {
       "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Models\/DeepLinkData.swift",
       "kind": "Dictionary",
-      "offset": 623,
+      "offset": 620,
       "length": 3,
       "value": "[]"
     },
@@ -5807,7 +5807,7 @@
       "kind": "StringLiteral",
       "offset": 999,
       "length": 8,
-      "value": "\"3.0.15\""
+      "value": "\"3.0.16\""
     },
     {
       "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
@@ -5875,14 +5875,14 @@
     {
       "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "StringLiteral",
-      "offset": 26227,
+      "offset": 26071,
       "length": 8,
       "value": "\"static\""
     },
     {
       "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "StringLiteral",
-      "offset": 29675,
+      "offset": 29519,
       "length": 26,
       "value": "\"^[A-Za-z0-9_\\-]{1,100}$\""
     }

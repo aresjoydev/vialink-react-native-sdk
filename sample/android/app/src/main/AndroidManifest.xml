@@ -29,6 +29,14 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="vialink.app" android:pathPrefix="/react" />
             </intent-filter>
+            <!-- Custom URL Scheme (페이스북/인스타 인앱 브라우저 fallback)
+                 admin console "Custom URL Scheme" 입력값과 정확히 일치해야 한다. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="via-react" />
+            </intent-filter>
         </activity>
     </application>
 </manifest>

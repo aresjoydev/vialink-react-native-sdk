@@ -28,6 +28,7 @@ public struct DeferredError : Swift.Error, Swift.Sendable, Swift.Equatable {
     case timeout
     case network
     case serverError
+    case clientError
     case invalidResponse
     case unknown
     #if compiler(>=5.3) && $NonescapableTypes

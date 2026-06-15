@@ -21,12 +21,14 @@ export interface DeepLinkData {
  *   - `'timeout'`: 5초 데드라인 만료
  *   - `'network'`: DNS 실패, 연결 거부 등 (3회 재시도 모두 실패)
  *   - `'server_error'`: HTTP 5xx (3회 재시도 모두 실패)
+ *   - `'client_error'`: HTTP 4xx (429 할당량 초과 포함) — 재시도 불가, 즉시 실패
  *   - `'invalid_response'`: 응답 JSON 파싱 실패
  *   - `'unknown'`: 그 외 모든 예외
- * - `retryable`이 true면 SDK가 다음 앱 실행에서 자동으로 다시 시도한다.
+ * - `retryable`은 항상 `false`다. 디퍼드 매칭은 기기당 1회(fire-once)만 수행하므로
+ *   실패하더라도 다음 앱 실행에서 자동 재시도하지 않는다. (필드는 호환성을 위해 유지)
  */
 export interface DeferredError {
-  code: 'timeout' | 'network' | 'server_error' | 'invalid_response' | 'unknown';
+  code: 'timeout' | 'network' | 'server_error' | 'client_error' | 'invalid_response' | 'unknown';
   message: string;
   httpStatus?: number;
   retryable: boolean;
@@ -179,7 +181,7 @@ export class ViaLinkSDK {
    * ```
    *
    * 콜백은 멱등성을 보장합니다 (총 1회 호출).
-   * `error.retryable`이 true면 다음 앱 실행에서 자동 재시도되며, 그 경우 사용자가 앱을 사용 중일 때 콜백이 도착할 수 있습니다.
+   * 디퍼드 매칭은 기기당 1회(fire-once)만 수행하므로, 실패하더라도 다음 앱 실행에서 자동 재시도하지 않습니다(`error.retryable`은 항상 false).
    */
   onDeferredDeepLink(
     callback: (data: DeepLinkData | null, error: DeferredError | null) => void,
@@ -205,7 +207,8 @@ export class ViaLinkSDK {
       const error: DeferredError = {
         code,
         message: e?.message ?? '디퍼드 매칭 실패',
-        retryable: code === 'timeout' || code === 'network' || code === 'server_error',
+        // fire-once: 디퍼드 매칭은 기기당 1회만 수행하므로 어떤 실패든 자동 재시도하지 않는다.
+        retryable: false,
       };
       this.deferredCallback?.(null, error);
     }

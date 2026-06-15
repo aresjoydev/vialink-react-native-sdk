@@ -738,6 +738,43 @@
               },
               {
                 "kind": "Var",
+                "name": "clientError",
+                "printedName": "clientError",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ViaLinkCore.DeferredError.Code.Type) -> ViaLinkCore.DeferredError.Code",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Code",
+                        "printedName": "ViaLinkCore.DeferredError.Code",
+                        "usr": "s:11ViaLinkCore13DeferredErrorV4CodeO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "ViaLinkCore.DeferredError.Code.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Code",
+                            "printedName": "ViaLinkCore.DeferredError.Code",
+                            "usr": "s:11ViaLinkCore13DeferredErrorV4CodeO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:11ViaLinkCore13DeferredErrorV4CodeO06clientE0yA2EmF",
+                "mangledName": "$s11ViaLinkCore13DeferredErrorV4CodeO06clientE0yA2EmF",
+                "moduleName": "ViaLinkCore"
+              },
+              {
+                "kind": "Var",
                 "name": "invalidResponse",
                 "printedName": "invalidResponse",
                 "children": [
@@ -5770,7 +5807,7 @@
     {
       "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Internal\/NetworkClient.swift",
       "kind": "IntegerLiteral",
-      "offset": 1929,
+      "offset": 2405,
       "length": 1,
       "value": "0"
     },
@@ -5791,14 +5828,21 @@
     {
       "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Models\/DeferredError.swift",
       "kind": "StringLiteral",
-      "offset": 1019,
+      "offset": 1186,
       "length": 14,
       "value": "\"server_error\""
     },
     {
       "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Models\/DeferredError.swift",
       "kind": "StringLiteral",
-      "offset": 1065,
+      "offset": 1228,
+      "length": 14,
+      "value": "\"client_error\""
+    },
+    {
+      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Models\/DeferredError.swift",
+      "kind": "StringLiteral",
+      "offset": 1274,
       "length": 18,
       "value": "\"invalid_response\""
     },
@@ -5807,7 +5851,7 @@
       "kind": "StringLiteral",
       "offset": 999,
       "length": 8,
-      "value": "\"3.0.16\""
+      "value": "\"3.0.18\""
     },
     {
       "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
@@ -5875,14 +5919,14 @@
     {
       "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "StringLiteral",
-      "offset": 26071,
+      "offset": 26337,
       "length": 8,
       "value": "\"static\""
     },
     {
       "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "StringLiteral",
-      "offset": 29519,
+      "offset": 29785,
       "length": 26,
       "value": "\"^[A-Za-z0-9_\\-]{1,100}$\""
     }

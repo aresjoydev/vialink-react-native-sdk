@@ -1,37 +1,39 @@
 # ViaLink React Native SDK
 
-ViaLink 딥링크 인프라 서비스를 위한 React Native SDK입니다.
-v2.0부터 네이티브 브릿지 방식(Android .aar + iOS .xcframework)으로 동작합니다.
+**English** | [한국어](README.ko.md)
 
-## 특징
+React Native SDK for the ViaLink deep link infrastructure service.
+Since v2.0 it runs through a native bridge (Android .aar + iOS .xcframework).
 
-- **딥링크 라우팅** — App Links / Universal Links 자동 처리
-- **디퍼드 딥링킹** — 앱 설치 후 첫 실행 시 핑거프린트 기반 매칭
-- **이벤트 추적** — 커스텀 이벤트 배치 전송
-- **결제 어트리뷰션** — 결제 시도 기록 + 자동 link_id 첨부
-- **링크 생성** — 앱 내에서 딥링크 생성 (static/dynamic)
+## Features
 
-## 요구사항
+- **Deep link routing** — automatic handling of App Links / Universal Links
+- **Deferred deep linking** — fingerprint-based matching on the first launch after install
+- **Event tracking** — batched delivery of custom events
+- **Payment attribution** — records payment attempts and automatically attaches `link_id`
+- **Link creation** — generate deep links from within the app (static/dynamic)
+
+## Requirements
 
 - React Native 0.73+
 - Android: minSdk 24, compileSdk 34
 - iOS: 15.0+, Swift 5.9+
 
-## 설치
+## Installation
 
 ```bash
 npm install vialink-react-native-sdk
 ```
 
-### iOS 추가 설정
+### iOS additional setup
 
 ```bash
 cd ios && pod install
 ```
 
-### Android 추가 설정
+### Android additional setup
 
-`android/app/build.gradle`에서 설정 확인:
+Verify the configuration in `android/app/build.gradle`:
 
 ```groovy
 android {
@@ -42,7 +44,7 @@ android {
 }
 ```
 
-`MainApplication.kt` (또는 `.java`)에 패키지 등록:
+Register the package in `MainApplication.kt` (or `.java`):
 
 ```kotlin
 import com.vialink.reactnative.ViaLinkPackage
@@ -54,38 +56,38 @@ override fun getPackages(): List<ReactPackage> {
 }
 ```
 
-## 사용법
+## Usage
 
-### 1. 초기화
+### 1. Initialization
 
 ```typescript
 import { ViaLinkSDK } from 'vialink-react-native-sdk';
 
-// App.tsx 최상위에서 호출
+// Call at the top level of App.tsx
 await ViaLinkSDK.shared.configure('YOUR_API_KEY');
 ```
 
-### 2. 딥링크 콜백
+### 2. Deep link callbacks
 
 ```typescript
-// App Links / Universal Links 수신
+// Receive App Links / Universal Links
 ViaLinkSDK.shared.onDeepLink((data) => {
-  console.log('딥링크:', data.path, data.params);
+  console.log('deep link:', data.path, data.params);
   navigation.navigate(data.path, data.params);
 });
 
-// 디퍼드 딥링크 (앱 첫 실행 시 매칭, 5초 데드라인)
+// Deferred deep link (matched on first app launch, 5-second deadline)
 ViaLinkSDK.shared.onDeferredDeepLink((data, error) => {
   if (error) {
-    // 매칭 실패 (timeout/network/server_error 등) — 일반 진입
-    console.log('매칭 실패:', error.code, error.message);
+    // match failed (timeout/network/server_error, etc.) — normal entry
+    console.log('match failed:', error.code, error.message);
     return;
   }
   if (!data) {
-    // organic install — 일반 진입
+    // organic install — normal entry
     return;
   }
-  // 매칭 성공 — 딥링크 경로로 이동
+  // match succeeded — navigate to the deep link path
   navigation.navigate(data.path, data.params);
 });
 ```
@@ -93,16 +95,16 @@ ViaLinkSDK.shared.onDeferredDeepLink((data, error) => {
 ### 3. Pull API
 
 ```typescript
-// 동기 (캐시된 값 즉시 반환)
+// Synchronous (returns the cached value immediately)
 const deepLink = await ViaLinkSDK.shared.getDeepLinkData();
 const deferred = await ViaLinkSDK.shared.getDeferredLinkData();
 
-// 비동기 (결과 도착까지 대기)
-const deepLinkAsync = await ViaLinkSDK.shared.awaitDeepLinkData();    // 3초 타임아웃
-const deferredAsync = await ViaLinkSDK.shared.awaitDeferredLinkData(); // 결과까지 대기
+// Asynchronous (waits until the result arrives)
+const deepLinkAsync = await ViaLinkSDK.shared.awaitDeepLinkData();    // 3-second timeout
+const deferredAsync = await ViaLinkSDK.shared.awaitDeferredLinkData(); // waits until the result
 ```
 
-### 4. 이벤트 추적
+### 4. Event tracking
 
 ```typescript
 ViaLinkSDK.shared.track('purchase', {
@@ -112,7 +114,7 @@ ViaLinkSDK.shared.track('purchase', {
 });
 ```
 
-### 5. 결제 추적
+### 5. Payment tracking
 
 ```typescript
 const result = await ViaLinkSDK.shared.payment.initiated({
@@ -124,33 +126,33 @@ const result = await ViaLinkSDK.shared.payment.initiated({
 console.log('success:', result.success, 'id:', result.paymentEventId);
 ```
 
-### 6. 링크 생성
+### 6. Link creation
 
 ```typescript
 const url = await ViaLinkSDK.shared.createLink(
   '/product/123',
   { promo_code: 'FRIEND_SHARE' },
   'referral',
-  'dynamic', // 클릭 추적 필요 시
+  'dynamic', // when click tracking is needed
 );
-console.log('생성된 링크:', url);
+console.log('created link:', url);
 ```
 
-### 7. 정리
+### 7. Cleanup
 
 ```typescript
-// 앱 종료 또는 unmount 시
+// On app shutdown or unmount
 ViaLinkSDK.shared.destroy();
 ```
 
-## 샘플 프로젝트
+## Sample project
 
-`sample/` 디렉토리에서 실행 가능한 샘플 앱을 확인하세요.
+See the runnable sample app in the `sample/` directory.
 
-## 문서
+## Documentation
 
-- [SDK 가이드](https://docs.vialink.app/sdk/react-native)
+- [SDK Guide](https://docs.vialink.app/sdk/react-native)
 
-## 라이선스
+## License
 
 MIT License — Aresjoy Inc.

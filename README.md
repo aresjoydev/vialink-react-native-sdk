@@ -1,9 +1,22 @@
 # ViaLink React Native SDK
 
+[![ViaLink — Deep links for 6 platforms. Start free.](docs/banner-en.png)](https://vialink.app)
+
 **English** | [한국어](README.ko.md)
 
 React Native SDK for the ViaLink deep link infrastructure service.
 Since v2.0 it runs through a native bridge (Android .aar + iOS .xcframework).
+
+Built as a bridge over the native Android and iOS SDKs, so a single TypeScript codebase
+handles deep linking and deferred deep linking on both platforms. Users who install from
+a link land on the intended screen at first launch, and click, install, open, event, and
+payment flow through one attribution pipeline.
+
+Unlike most deep link and attribution tools, which require a sales call and an annual
+contract, **ViaLink is free to start.** No credit card — all six platform SDKs are
+available the moment you sign up.
+
+**→ [vialink.app](https://vialink.app)**
 
 ## Features
 

@@ -162,7 +162,7 @@ ViaLinkSDK.shared.destroy();
 
 ## 문서
 
-- [SDK 가이드](https://docs.vialink.app/sdk/react-native)
+- [SDK 가이드](https://docs.vialink.app/#sdk-react-native-install)
 
 ## 라이선스
 

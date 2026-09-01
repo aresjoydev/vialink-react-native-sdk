@@ -164,7 +164,7 @@ See the runnable sample app in the `sample/` directory.
 
 ## Documentation
 
-- [SDK Guide](https://docs.vialink.app/sdk/react-native)
+- [SDK Guide](https://docs.vialink.app/#sdk-react-native-install)
 
 ## License
 

@@ -178,4 +178,5 @@ ViaLinkSDK.shared.destroy();
 
 ## 라이선스
 
-MIT License — Aresjoy Inc.
+전용 라이선스 — © 2026 Aresjoy Inc. All rights reserved.
+사용 조건은 [ViaLink 이용약관](https://vialink.app/terms?lang=ko)을 따릅니다. 자세한 내용은 [LICENSE](LICENSE)를 참고하세요.

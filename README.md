@@ -180,4 +180,5 @@ See the runnable sample app in the `sample/` directory.
 
 ## License
 
-MIT License — Aresjoy Inc.
+Proprietary — © 2026 Aresjoy Inc. All rights reserved.
+Use is governed by the [ViaLink Terms of Service](https://vialink.app/terms). See [LICENSE](LICENSE).

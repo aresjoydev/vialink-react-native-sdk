@@ -5777,156 +5777,156 @@
   },
   "ConstValues": [
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/EventTracker.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/EventTracker.swift",
       "kind": "Array",
       "offset": 274,
       "length": 2,
       "value": "[]"
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/EventTracker.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/EventTracker.swift",
       "kind": "IntegerLiteral",
       "offset": 340,
       "length": 3,
       "value": "100"
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/EventTracker.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/EventTracker.swift",
       "kind": "IntegerLiteral",
       "offset": 976,
       "length": 2,
       "value": "30"
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Internal\/NetworkClient.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Internal\/NetworkClient.swift",
       "kind": "IntegerLiteral",
       "offset": 264,
       "length": 1,
       "value": "3"
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Internal\/NetworkClient.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Internal\/NetworkClient.swift",
       "kind": "IntegerLiteral",
-      "offset": 2405,
+      "offset": 2403,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Internal\/Storage.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Internal\/Storage.swift",
       "kind": "StringLiteral",
       "offset": 109,
       "length": 18,
       "value": "\"com.vialink.sdk.\""
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Models\/DeepLinkData.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Models\/DeepLinkData.swift",
       "kind": "Dictionary",
       "offset": 620,
       "length": 3,
       "value": "[]"
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Models\/DeferredError.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Models\/DeferredError.swift",
       "kind": "StringLiteral",
       "offset": 1186,
       "length": 14,
       "value": "\"server_error\""
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Models\/DeferredError.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Models\/DeferredError.swift",
       "kind": "StringLiteral",
       "offset": 1228,
       "length": 14,
       "value": "\"client_error\""
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Models\/DeferredError.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/Models\/DeferredError.swift",
       "kind": "StringLiteral",
       "offset": 1274,
       "length": 18,
       "value": "\"invalid_response\""
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "StringLiteral",
       "offset": 999,
-      "length": 8,
-      "value": "\"3.0.18\""
+      "length": 7,
+      "value": "\"3.3.0\""
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "StringLiteral",
-      "offset": 1214,
+      "offset": 1213,
       "length": 21,
       "value": "\"https:\/\/vialink.app\""
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "IntegerLiteral",
-      "offset": 1619,
+      "offset": 1618,
       "length": 1,
       "value": "5"
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "IntegerLiteral",
-      "offset": 1682,
+      "offset": 1681,
       "length": 1,
       "value": "5"
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "IntegerLiteral",
-      "offset": 1686,
+      "offset": 1685,
       "length": 13,
       "value": "1000000000"
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "BooleanLiteral",
-      "offset": 1892,
+      "offset": 1891,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "BooleanLiteral",
-      "offset": 2358,
+      "offset": 2357,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "Array",
-      "offset": 2704,
+      "offset": 2703,
       "length": 2,
       "value": "[]"
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "FloatLiteral",
-      "offset": 4027,
+      "offset": 4026,
       "length": 3,
       "value": "2.0"
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "Array",
-      "offset": 4208,
+      "offset": 4207,
       "length": 2,
       "value": "[]"
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "StringLiteral",
-      "offset": 26337,
+      "offset": 26336,
       "length": 8,
       "value": "\"static\""
     },
     {
-      "filePath": "\/Users\/hong\/sources\/vialink_claude\/vialink-p-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
+      "filePath": "\/Users\/hong\/sources\/vialink-manager\/sdk\/ios-sdk\/Sources\/ViaLinkCore\/ViaLinkSDK.swift",
       "kind": "StringLiteral",
-      "offset": 29785,
+      "offset": 29784,
       "length": 26,
       "value": "\"^[A-Za-z0-9_\\-]{1,100}$\""
     }

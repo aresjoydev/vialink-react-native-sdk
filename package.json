@@ -1,6 +1,6 @@
 {
   "name": "vialink-react-native-sdk",
-  "version": "3.3.12",
+  "version": "3.3.13",
   "description": "ViaLink 딥링크 SDK for React Native (네이티브 브릿지)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,5 +36,5 @@
     "native-bridge"
   ],
   "author": "",
-  "license": "MIT"
+  "license": "SEE LICENSE IN LICENSE"
 }

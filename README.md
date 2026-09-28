@@ -1,6 +1,6 @@
 # ViaLink React Native SDK
 
-[![ViaLink — Deep links for 6 platforms. Start free.](docs/banner-en.png)](https://vialink.app)
+[![ViaLink — Deep links for 6 platforms. Start free.](docs/banner-en.png)](https://vialink.app/?utm_source=github&utm_medium=readme&utm_campaign=react-native-sdk)
 
 **English** | [한국어](README.ko.md)
 
@@ -16,7 +16,19 @@ Unlike most deep link and attribution tools, which require a sales call and an a
 contract, **ViaLink is free to start.** No credit card — all six platform SDKs are
 available the moment you sign up.
 
-**→ [vialink.app](https://vialink.app)**
+**→ [vialink.app](https://vialink.app/?utm_source=github&utm_medium=readme&utm_campaign=react-native-sdk)**
+
+## Opens the app from in-app browsers, too
+
+Links shared on KakaoTalk, Naver, LINE, Instagram, or Threads open in the app's built-in
+browser, where Universal Links and App Links often don't fire. ViaLink's link server
+detects the in-app browser and takes the route that works there:
+
+- **KakaoTalk · Naver · LINE (iOS)** — hands the link off to Safari automatically, so the Universal Link fires
+- **Android in-app browsers** — launches the app with an `intent://` URL, falling back to the store if it isn't installed
+- **Instagram · Facebook · Threads and others** — tries your app's custom URL scheme (if registered) and shows an "Open in external browser" guide as a backup
+
+This runs on the link server — no extra SDK code needed.
 
 ## Features
 
